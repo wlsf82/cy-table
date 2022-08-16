@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>cy.handsOn('sum-table-rows')</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+      table, th, td {
+        border: 1px solid gray;
+        padding: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sum table rows</h1>
+    <table>
+      <thead>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Expresso</td>
+          <td data-row="price">R$1,20</td>
+          <td data-row="quantity">5</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Cappuccino</td>
+          <td data-row="price">R$1,50</td>
+          <td data-row="quantity">2</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Americano</td>
+          <td data-row="price">R$1,25</td>
+          <td data-row="quantity">3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Latte Macchiato</td>
+          <td data-row="price">R$2,00</td>
+          <td data-row="quantity">1</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <th>Total</th>
+        <td>N/A</td>
+        <td id="total-price"></td>
+        <td id="total-quantity"></td>
+      </tfoot>
+    </table>
+    <script>
+      window.addEventListener('load', function() {
+        const priceElements = document.querySelectorAll('[data-row="price"]')
+        const quantityElements = document.querySelectorAll('[data-row="quantity"]')
+        const totalPriceEl = document.getElementById('total-price')
+        const totalQuantityEl = document.getElementById('total-quantity')
+        let totalPrice = 0
+        let totalQuantity = 0
+        const prices = priceElements.forEach((el, index) => {
+          const priceWithoutCurrency = el.innerHTML.replace('R$', '').replace(',', '.')
+          const quantity = quantityElements[index].innerHTML
+          totalPrice += Number(priceWithoutCurrency) * Number(quantity)
+        })
+        const quantities = quantityElements.forEach(el => {
+          const quantity = Number(el.innerHTML)
+          totalQuantity += Number(el.innerHTML)
+        })
+        totalPriceEl.innerText = `R$${totalPrice.toFixed(2)}`
+        totalQuantityEl.innerText = totalQuantity
+      })
+    </script>
+  </body>
+</html>
